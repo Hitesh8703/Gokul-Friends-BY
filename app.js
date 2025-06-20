@@ -1,12 +1,12 @@
 // STEP 1: Paste your Firebase config here 👇👇
 const firebaseConfig = {
-  apiKey: "YOUR-API-KEY",
-  authDomain: "YOUR-FIREBASE-PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR-FIREBASE-PROJECT.firebaseio.com",
-  projectId: "YOUR-FIREBASE-PROJECT",
-  storageBucket: "YOUR-FIREBASE-PROJECT.appspot.com",
-  messagingSenderId: "SENDER-ID",
-  appId: "APP-ID"
+  apiKey: "AIzaSyAiDAaFTY9h6HaT2Mi0xH89_qgLj-OS4_I",
+  authDomain: "gokul-friends.firebaseapp.com",
+  databaseURL: "https://gokul-friends.firebaseapp.com",
+  projectId: "gokul-friends",
+  storageBucket: "gokul-friends.firebasestorage.app",
+  messagingSenderId: "1028435383508",
+  appId: "1:1028435383508:web:ca5821d1470c38c29b5741"
 };
 
 firebase.initializeApp(firebaseConfig);
