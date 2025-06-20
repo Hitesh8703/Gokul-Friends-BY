@@ -1,0 +1,1 @@
+// JS Placeholder for secure login logic
