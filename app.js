@@ -1,3 +1,17 @@
+// STEP 1: Paste your Firebase config here 👇👇
+const firebaseConfig = {
+  apiKey: "YOUR-API-KEY",
+  authDomain: "YOUR-FIREBASE-PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR-FIREBASE-PROJECT.firebaseio.com",
+  projectId: "YOUR-FIREBASE-PROJECT",
+  storageBucket: "YOUR-FIREBASE-PROJECT.appspot.com",
+  messagingSenderId: "SENDER-ID",
+  appId: "APP-ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 const validUsers = {
   "Hitesh": "12345",
   "Samarth": "23791",
@@ -9,6 +23,7 @@ const validUsers = {
   "Ayush": "56478"
 };
 
+let currentUser = "";
 let userXP = {};
 
 function login() {
@@ -16,10 +31,12 @@ function login() {
   const passkey = document.getElementById("passkey").value.trim();
 
   if (validUsers[username] === passkey) {
+    currentUser = username;
     document.getElementById("login-section").style.display = "none";
     document.getElementById("chat-section").style.display = "block";
     if (!userXP[username]) userXP[username] = 0;
     updateXP(username, 10);
+    listenForMessages();
   } else {
     alert("Invalid login ID or passkey.");
   }
@@ -28,17 +45,26 @@ function login() {
 function sendMessage() {
   const input = document.getElementById("chat-input");
   const message = input.value.trim();
-
   if (message) {
-    const chatBox = document.getElementById("chat-box");
-    const p = document.createElement("p");
-    p.textContent = message;
-    chatBox.appendChild(p);
+    db.ref("groupChat").push({
+      user: currentUser,
+      message: message,
+      timestamp: Date.now()
+    });
     input.value = "";
-
-    const username = document.getElementById("username").value.trim();
-    updateXP(username, 5);
+    updateXP(currentUser, 5);
   }
+}
+
+function listenForMessages() {
+  const chatBox = document.getElementById("chat-box");
+  db.ref("groupChat").on("child_added", function(snapshot) {
+    const data = snapshot.val();
+    const p = document.createElement("p");
+    p.innerHTML = `<strong>${data.user}:</strong> ${data.message}`;
+    chatBox.appendChild(p);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
 }
 
 function updateXP(user, points) {
